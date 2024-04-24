@@ -15,7 +15,7 @@ class App(CTk):
         self.sidebar_frame.pack(side=tk.LEFT, fill="y")
 
         # Create the main frame
-        self.main_frame = CTkFrame(self, corner_radius=16, width=800, height=600)
+        self.main_frame = CTkFrame(self, corner_radius=0, width=800, height=600)
         self.main_frame.pack(side=tk.RIGHT, expand=True)
 
         # Create the treeview widget inside the sidebar frame
@@ -35,19 +35,27 @@ class App(CTk):
         self.treeview.pack(side=tk.TOP, fill="both", expand=True)
 
         # Insert data into the Treeview
-        # items = [
-        #     {"Item": "Item 1", "Subitem1": "Subitem 11", "Subitem2": "Subitem 12"},
-        #     {"Item": "Item 2", "Subitem1": "Subitem 21", "Subitem2": "Subitem 22"},
-        #     {"Item": "Item 3", "Subitem1": "Subitem 31", "Subitem2": "Subitem 32"},
-        #     {"Item": "Item 4", "Subitem1": "Subitem 41", "Subitem2": "Subitem 42"},
-        #     {"Item": "Item 5", "Subitem1": "Subitem 51", "Subitem2": "Subitem 52"},
-        # ]
+        items = [
+            {"Item 1": ["Subitem1", "Subitem 11", "Subitem2", "Subitem 12"]},
+            {"Item 2": ["Subitem1", "Subitem 21", "Subitem2", "Subitem 22"]},
+            # {"Item": "Item 3", "Subitem1": "Subitem 31", "Subitem2": "Subitem 32"},
+            # {"Item": "Item 4", "Subitem1": "Subitem 41", "Subitem2": "Subitem 42"},
+            # {"Item": "Item 5", "Subitem1": "Subitem 51", "Subitem2": "Subitem 52"},
+        ]
 
-        # for item in items:
-        #     self.treeview.insert("", tk.END, values=list(item.values()))
+        items = {
+            "Item 1": ["Subitem1", "Subitem 11", "Subitem2", "Subitem 12"],
+            "Item 2": ["Subitem1", "Subitem 21", "Subitem2"],
+        }
 
-        item = self.treeview.insert("", tk.END, text="Item 1")
-        self.treeview.insert(item, tk.END, text="Subitem 1")
+        for item, subitems in items.items():
+            i = self.treeview.insert("", tk.END, text=item, open=True)
+            for subitem in subitems:
+                self.treeview.insert(i, tk.END, text=subitem)
+            # self.treeview.insert("", tk.END, values=list(item.values()))
+
+        # item = self.treeview.insert("", tk.END, text="Item 1")
+        # self.treeview.insert(item, tk.END, text="Subitem 1")
 
 
 if __name__ == "__main__":
