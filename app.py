@@ -19,7 +19,7 @@ class App(customtkinter.CTk):
 
 class SideBar(customtkinter.CTkFrame):
     def __init__(self, parent, width, views):
-        super().__init__(parent, width)
+        super().__init__(parent, width, corner_radius=0)
 
         self.parent = parent
 
@@ -37,8 +37,8 @@ class SideBar(customtkinter.CTkFrame):
                 self,
                 text=view_name,
                 corner_radius=0,
-                # fg_color="transparent",
-                # text_color="black",
+                fg_color="transparent",
+                text_color="black",
                 command=lambda view_name=view_name: self.switch_view(view_name),
             ).pack(fill="x")
 
@@ -72,7 +72,7 @@ class Main(customtkinter.CTkFrame):
         self.open_view("Niveis de Partida")
 
         # define layout
-        self.pack(expand=True, fill="both", side="right", padx=(10, 0), pady=0)
+        self.pack(expand=True, fill="both", side="right", padx=(0, 0), pady=0)
         self.pack_propagate(0)
 
     def open_view(self, view_name):
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     # setting
     title = "PyResarch"
     size = (800, 1000)
-    sidebar_width = 150
+    sidebar_width = 180
 
     # initialize app
     app = App(title, size, sidebar_width)
