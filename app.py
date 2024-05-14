@@ -3,7 +3,7 @@ from views.ler_prevs import LerPrevs
 from views.niveis_partida import NiveisPartida
 
 # customtkinter.set_appearance_mode("dark")
-# customtkinter.set_appearance_mode("light")
+customtkinter.set_appearance_mode("light")
 
 
 class App(customtkinter.CTk):
@@ -32,15 +32,16 @@ class SideBar(customtkinter.CTkFrame):
 
     def create_widgets(self, views):
         for view_name, view in views.items():
-            print("DADA", view_name)
             customtkinter.CTkButton(
                 self,
                 text=view_name,
                 corner_radius=0,
                 fg_color="transparent",
                 text_color="black",
+                # compound="left",
+                anchor="we",
                 command=lambda view_name=view_name: self.switch_view(view_name),
-            ).pack(fill="x")
+            ).pack(fill="x", ipadx=90)
 
     def switch_view(self, view_name):
         print("Cliquei em:", view_name)
