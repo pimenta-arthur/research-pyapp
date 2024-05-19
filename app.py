@@ -1,25 +1,30 @@
 import customtkinter
 from views.ler_prevs import LerPrevs
-from views.niveis_partida import NiveisPartida
+
+# from views.niveis_partida import NiveisPartida
+from views.niveis_partida_hom import NiveisPartidaHOM as NiveisPartida
 
 # customtkinter.set_appearance_mode("dark")
 customtkinter.set_appearance_mode("light")
+customtkinter.set_default_color_theme("assets/themes/light-default.json")
 
 
 class App(customtkinter.CTk):
-    def __init__(self, title, size, sidebar_width):
+    def __init__(self, title, size, sidebar_width, fg_color_sidebar, fg_color_main):
         super().__init__()
         self.title(title)
         self.geometry(f"{size[0]}x{size[1]}")
 
         # create widgets
-        self.main = Main(self)
-        self.sidebar = SideBar(self, sidebar_width, self.main.views)
+        self.main = Main(self, fg_color_main)
+        self.sidebar = SideBar(self, sidebar_width, fg_color_sidebar, self.main.views)
 
 
 class SideBar(customtkinter.CTkFrame):
-    def __init__(self, parent, width, views):
-        super().__init__(parent, width, corner_radius=0)
+    def __init__(self, parent, sidebar_width, fg_color_sidebar, views):
+        super().__init__(
+            parent, width=sidebar_width, corner_radius=0, fg_color=fg_color_sidebar
+        )
 
         self.parent = parent
 
@@ -34,14 +39,16 @@ class SideBar(customtkinter.CTkFrame):
         for view_name, view in views.items():
             customtkinter.CTkButton(
                 self,
-                text=view_name,
+                text=5 * " " + view_name,
                 corner_radius=0,
                 fg_color="transparent",
+                hover_color="#dbdbdb",
                 text_color="black",
+                font=customtkinter.CTkFont(size=13),
                 # compound="left",
-                anchor="we",
+                anchor="w",
                 command=lambda view_name=view_name: self.switch_view(view_name),
-            ).pack(fill="x", ipadx=90)
+            ).pack(fill="x")
 
     def switch_view(self, view_name):
         print("Cliquei em:", view_name)
@@ -60,7 +67,7 @@ class SideBar(customtkinter.CTkFrame):
 
 
 class Main(customtkinter.CTkFrame):
-    def __init__(self, parent):
+    def __init__(self, parent, fg_color_views):
         super().__init__(parent)
 
         # load views
@@ -84,9 +91,11 @@ class Main(customtkinter.CTkFrame):
 if __name__ == "__main__":
     # setting
     title = "PyResarch"
-    size = (800, 1000)
+    size = (1000, 900)
     sidebar_width = 180
+    fg_color_sidebar = "#e2e3e2"
+    fg_color_main = "#e7ebf1"
 
     # initialize app
-    app = App(title, size, sidebar_width)
+    app = App(title, size, sidebar_width, fg_color_sidebar, fg_color_main)
     app.mainloop()

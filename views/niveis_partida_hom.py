@@ -4,9 +4,9 @@ from tkinter import ttk
 from CTkTable import CTkTable
 
 
-class NiveisPartida(customtkinter.CTkFrame):
+class NiveisPartidaHOM(customtkinter.CTkFrame):
     def __init__(self, parent):
-        super().__init__(parent, corner_radius=0)
+        super().__init__(parent, corner_radius=0, fg_color="transparent")
 
         self.create_widgets()
 
@@ -16,11 +16,11 @@ class NiveisPartida(customtkinter.CTkFrame):
 
         # header
         header = Header(self)
-        header.grid(row=0, columnspan=3, sticky="we", padx=15)
+        header.grid(row=0, columnspan=3, sticky="we", padx=20)
 
         # main frame
         main_frame = MainFrame(self)
-        main_frame.grid(row=2, column=0, columnspan=3, sticky="nsew", padx=(15))
+        main_frame.grid(row=2, column=0, columnspan=3, sticky="nsew", padx=(20))
 
         # footer
         customtkinter.CTkProgressBar(self, corner_radius=0).grid(
@@ -30,7 +30,7 @@ class NiveisPartida(customtkinter.CTkFrame):
 
 class Header(customtkinter.CTkFrame):
     def __init__(self, parent):
-        super().__init__(parent, corner_radius=0, fg_color="pink")
+        super().__init__(parent, corner_radius=0, fg_color="transparent")
 
         font = customtkinter.CTkFont(size=17)
         customtkinter.CTkLabel(
@@ -38,40 +38,44 @@ class Header(customtkinter.CTkFrame):
             font=font,
             text="Niveis de Partida",
             anchor="w",
-        ).pack(fill="x", pady=(15, 15))
+        ).pack(fill="x", pady=(20, 15))
 
         ttk.Separator(self, orient="horizontal").pack(fill="x", pady=(0, 10))
 
 
 class MainFrame(customtkinter.CTkFrame):
     def __init__(self, parent):
-        super().__init__(parent, corner_radius=0, fg_color="red")
+        super().__init__(parent, corner_radius=0, fg_color="transparent")
 
         self.columnconfigure(1, weight=1)
-        self.columnconfigure(0, minsize=100)
-        self.columnconfigure(2, minsize=100)
+        self.columnconfigure(2, minsize=10)
+        self.columnconfigure(3, minsize=90)
 
         # carregar dadger
+        # customtkinter.CTkLabel(
+        #     self, text="Arquivo:", anchor="w", bg_color="transparent"
+        # ).grid(row=0, column=0, sticky="we")
         customtkinter.CTkLabel(
-            self, text="Arquivo:", anchor="w", bg_color="yellow"
-        ).grid(row=0, column=0, sticky="we")
-        customtkinter.CTkLabel(
-            self, text="DADGER", anchor="center", bg_color="blue"
+            self, text="DADGER", anchor="center", bg_color="transparent"
         ).grid(row=0, column=1, sticky="we")
-        customtkinter.CTkButton(self, text="Alterar", corner_radius=4, width=100).grid(
-            row=0, column=2
-        )
+        customtkinter.CTkButton(self, text="Alterar", width=90).grid(row=0, column=3)
 
         # # carregar confhd
         customtkinter.CTkLabel(
-            self, text="CONFHD", anchor="center", bg_color="blue"
+            self, text="CONFHD", anchor="center", bg_color="transparent"
         ).grid(row=1, column=1, sticky="we")
-        customtkinter.CTkButton(self, text="Alterar", corner_radius=4, width=100).grid(
-            row=1, column=2
-        )
+        customtkinter.CTkButton(
+            self,
+            text="Alterar",
+            width=90,
+            height=25,
+            fg_color="#93969d",
+            hover=False,
+            # text_color="black",
+        ).grid(row=1, column=3)
 
         # # selecionar fonte (rdh ou relato)
-        radio_fonte_frame = customtkinter.CTkFrame(self, fg_color="pink")
+        radio_fonte_frame = customtkinter.CTkFrame(self, fg_color="transparent")
         radio_var = tkinter.IntVar(value=1)
         customtkinter.CTkRadioButton(
             radio_fonte_frame,
@@ -90,28 +94,40 @@ class MainFrame(customtkinter.CTkFrame):
         ).pack(side="right", anchor="e")
         radio_fonte_frame.grid(row=2, column=1)
 
-        customtkinter.CTkButton(self, text="Abrir", corner_radius=4, width=100).grid(
-            row=3, column=2
-        )
+        customtkinter.CTkButton(
+            self,
+            text="Abrir",
+            width=90,
+            height=25,
+            fg_color="#767981",
+        ).grid(row=3, column=3)
 
         # table earm
-        CTkTable(self, row=4, column=7, header_color="white").grid(row=4, column=1)
+        CTkTable(
+            self,
+            row=4,
+            column=7,
+            header_color="white",
+            corner_radius=5,
+            border_width=0,
+            colors=["#e2e3e2", "#e2e3e2"],
+        ).grid(row=4, column=1)
 
         # # semana relato
-        radio_semana_frame = customtkinter.CTkFrame(self, fg_color="pink")
+        radio_semana_frame = customtkinter.CTkFrame(self, fg_color="transparent")
         radio_semana_var = tkinter.IntVar(value=1)
-        for s in range(6):
+        for s in range(1, 7):
             customtkinter.CTkRadioButton(
                 radio_semana_frame,
                 text=f"Semana {s}",
                 command=lambda: self.radiobutton_semana_event(radio_semana_var),
                 variable=radio_semana_var,
-                value=1,
+                value=s,
             ).pack(side="left", anchor="e")
         radio_semana_frame.grid(row=5, column=1)
 
         # entry earm
-        entry_earm_frame = customtkinter.CTkFrame(self, fg_color="pink")
+        entry_earm_frame = customtkinter.CTkFrame(self, fg_color="transparent")
         customtkinter.CTkEntry(entry_earm_frame, placeholder_text="SE", width=70).grid(
             row=0, column=0, padx=3
         )
@@ -130,7 +146,7 @@ class MainFrame(customtkinter.CTkFrame):
         entry_earm_frame.grid(row=6, column=1)
 
         # checkbox saida
-        checkbox_saida_frame = customtkinter.CTkFrame(self, fg_color="pink")
+        checkbox_saida_frame = customtkinter.CTkFrame(self, fg_color="transparent")
         check_blocouh_var = customtkinter.StringVar(value="on")
         customtkinter.CTkCheckBox(
             checkbox_saida_frame,
@@ -149,12 +165,10 @@ class MainFrame(customtkinter.CTkFrame):
         ).pack(side="left")
         checkbox_saida_frame.grid(row=7, column=1)
 
-        customtkinter.CTkButton(self, text="Gerar", corner_radius=4, width=100).grid(
-            row=8, column=2
-        )
+        customtkinter.CTkButton(self, text="Gerar", width=90).grid(row=8, column=3)
 
         for child in self.winfo_children()[:]:
-            child.grid_configure(padx=0, pady=(20, 0))
+            child.grid_configure(padx=0, pady=(15, 0))
 
     def radiobutton_fonte_event(self, radio_var):
         print("radiobutton toggled, current value:", radio_var.get())
