@@ -1,7 +1,8 @@
 import customtkinter
 import tkinter
-from tkinter import ttk
+from tkinter import ttk, PhotoImage
 from CTkTable import CTkTable
+from PIL import Image
 
 
 class NiveisPartidaHOM(customtkinter.CTkFrame):
@@ -58,7 +59,20 @@ class MainFrame(customtkinter.CTkFrame):
         customtkinter.CTkLabel(
             self, text="DADGER", anchor="center", bg_color="transparent"
         ).grid(row=0, column=1, sticky="we")
-        customtkinter.CTkButton(self, text="Alterar", width=90).grid(row=0, column=3)
+        # icon = PhotoImage(file="assets/icons/lista.png", width=10, height=10)
+        icon = customtkinter.CTkImage(
+            light_image=Image.open("assets/icons/lista.png"), size=(20, 20)
+        )
+        customtkinter.CTkButton(
+            self,
+            text="",
+            width=40,
+            image=icon,
+            compound="left",
+            fg_color="#e2e3e2",
+            text_color="white",
+            hover=False,
+        ).grid(row=0, column=3)
 
         # # carregar confhd
         customtkinter.CTkLabel(

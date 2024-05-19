@@ -27,6 +27,7 @@ class SideBar(customtkinter.CTkFrame):
         )
 
         self.parent = parent
+        self.fg_color_sidebar = fg_color_sidebar
 
         # create sidebar views
         self.create_widgets(views)
@@ -37,7 +38,7 @@ class SideBar(customtkinter.CTkFrame):
 
     def create_widgets(self, views):
         for view_name, view in views.items():
-            customtkinter.CTkButton(
+            btn = customtkinter.CTkButton(
                 self,
                 text=5 * " " + view_name,
                 corner_radius=0,
@@ -47,11 +48,16 @@ class SideBar(customtkinter.CTkFrame):
                 font=customtkinter.CTkFont(size=13),
                 # compound="left",
                 anchor="w",
-                command=lambda view_name=view_name: self.switch_view(view_name),
-            ).pack(fill="x")
+            )
+            btn.configure(
+                command=lambda view_name=view_name, btn=btn: self.switch_view(
+                    view_name, btn
+                )
+            )
+            btn.pack(fill="x")
 
-    def switch_view(self, view_name):
-        print("Cliquei em:", view_name)
+    def switch_view(self, view_name, btn):
+        print("Cliquei em:", btn, view_name)
         # print("button", self.text)
         # print("Sidebar widgets:", self.winfo_children())
         # print("Main widgets", self.parent.main.winfo_children())
@@ -60,6 +66,10 @@ class SideBar(customtkinter.CTkFrame):
         # clear main frame and open view
         self.clear_frame(self.parent.main)
         self.parent.main.open_view(view_name)
+
+        # define bg color button
+        [w.configure(fg_color=self.fg_color_sidebar) for w in self.winfo_children()]
+        btn.configure(fg_color="#dbdbdb")
 
     def clear_frame(self, frame):
         for widgets in frame.winfo_children():
@@ -77,7 +87,8 @@ class Main(customtkinter.CTkFrame):
         }
 
         # open home view
-        self.open_view("Niveis de Partida")
+        self.current_view = "Niveis de Partida"
+        self.open_view(self.current_view)
 
         # define layout
         self.pack(expand=True, fill="both", side="right", padx=(0, 0), pady=0)
@@ -86,6 +97,7 @@ class Main(customtkinter.CTkFrame):
     def open_view(self, view_name):
         view = self.views[view_name]
         view.pack(expand=True, fill="both")
+        self.current_view = view_name
 
 
 if __name__ == "__main__":
