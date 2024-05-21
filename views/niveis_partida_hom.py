@@ -8,6 +8,7 @@ from customtkinter import (
     CTkProgressBar,
     CTkLabel,
     CTkFont,
+    filedialog,
 )
 from widgets import CTkAppButton
 import tkinter
@@ -88,12 +89,14 @@ class MainFrame(CTkFrame):
         CTkAppButton(
             self,
             text="Alterar",
-            width=80,
-            height=25,
-            hover=True,
+            command=lambda: filedialog.askopenfile(),
         ).grid(row=1, column=3)
 
     def input_source_file(self):
+        def open_file(label):
+            file = filedialog.askopenfile()
+            label.configure(text=file.name)
+
         radio_fonte_frame = CTkFrame(self, fg_color="transparent")
         radio_var = tkinter.IntVar(value=1)
         CTkRadioButton(
@@ -113,13 +116,12 @@ class MainFrame(CTkFrame):
         ).pack(side="right", anchor="e")
         radio_fonte_frame.grid(row=2, column=1)
 
+        source_label = CTkLabel(self, text="")
+        source_label.grid(row=3, column=1)
+
         # open file
         CTkAppButton(
-            self,
-            text="Abrir",
-            width=80,
-            height=25,
-            fg_color="#767981",
+            self, text="Abrir", command=lambda label=source_label: open_file(label)
         ).grid(row=3, column=3)
 
     def display_table(self):
